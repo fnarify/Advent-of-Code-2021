@@ -1,0 +1,35 @@
+Example runthrough:
+
+8A004A801A8002F478
+100010100000000001001010100000000001101010000000000000101111010001111000
+100         - packet version 4
+010         - packet type ID 2
+1           - ID 1 (next 11 bits)
+00000000001 - sub bits 1
+001         - packet version 1
+010         - packet ID 2
+1           - ID 1 (next 11 bits)
+00000000001 - sub bits 1
+101         - packet version 5
+010         - packet ID 2
+0           - sub bits 0 (next 15 bits length)
+000000000001011  - 11 bit length (literal value)
+11010001111000   - pad till length is multiple of 4
+1101000111100000 - padded at end, now parse
+110         - packet version 6
+100         - packet ID 4 (literal)
+01111       - start with 0 -> binary 1111 -> literal value 15
+00000       - extra can be ignored
+
+version sum is the sum of the packet versions
+4 + 1 + 5 + 6 = 16
+
+
+| Section below is probably the incorrect way, as the padding was done to the front
+0011010001111000 - break into blocks of 5
+00110            - starts with 0 so end of value, gives literal value 0110
+10001111000      - extra bits, to ignore
+literal value is 6
+
+Does the padding even matter? can padding be added to the initial state
+despite it always being a multiple of 4?
